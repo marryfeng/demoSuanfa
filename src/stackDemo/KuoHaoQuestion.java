@@ -36,7 +36,7 @@ public class KuoHaoQuestion {
         return stack.isEmpty();
     }
     public static void main(String[] args){
-        System.out.println(new KuoHaoQuestion().isMatch("{}"));
+        System.out.println(new KuoHaoQuestion().isMatch("{[]}"));
     }
 
 }
