@@ -12,7 +12,9 @@ public class LoopQueue<E> implements Queue<E> {
     private int front;
     private int tail;
     private int size;
+    //这里的capacity指的是data.length
     public LoopQueue(int capacity){
+        //这里为了区分队列为空和队列为满的情况，有意识的浪费了一个空间，即空间多加1个
         data=(E[]) new Object[capacity+1];
         //指向队首元素
         int front=0;
@@ -52,7 +54,7 @@ public class LoopQueue<E> implements Queue<E> {
     }
 
     public int getCapacity(){
-        return data.length+1;
+        return data.length-1;
     }
 //循环队列出队，出队即从front出队，考虑缩容现象
     @Override
