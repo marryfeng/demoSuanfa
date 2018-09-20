@@ -6,7 +6,7 @@ package linkListDemo;
  * @CreateDate: 2018/9/20
  * @Version: 1.0
  */
-//利用链表来实现队列
+//利用链表来实现队列：使用带有虚拟头结点的底层实现
 public class LinkQueue<E> implements Queue<E> {
     LinkList<E> linkList=new LinkList<>();
     @Override

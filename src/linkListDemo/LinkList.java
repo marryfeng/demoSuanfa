@@ -17,6 +17,7 @@ public class LinkList<E> {
         //这里很重要，否则虚拟节点用不了
         //初始化链表的时候有个空的头节点的，程序报错的原因是刚开始初始化的时候没有创建这个头节点
         dumpyHead=new Node(null,null);
+        //存储的元素的个数
         size=0;
     }
     private class Node{
