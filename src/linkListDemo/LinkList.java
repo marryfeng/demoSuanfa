@@ -40,12 +40,12 @@ public class LinkList<E> {
         addEle(size,e);
     }
     //在链表头部删除元素
-    public void delFirst(){
-        delEle(0);
+    public E delFirst(){
+       return delEle(0);
     }
     //在链表尾部删除元素
-    public void delLast(E e){
-        delEle(size-1);
+    public E delLast(E e){
+       return delEle(size-1);
     }
     //在链表中（中间插入，头部尾部插入可以直接调用此方法）插入元素
     public void addEle(int index,E e){
