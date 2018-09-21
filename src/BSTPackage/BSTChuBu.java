@@ -1,4 +1,4 @@
-package BST;
+package BSTPackage;
 
 
 
@@ -9,7 +9,7 @@ package BST;
  * @Version: 1.0
  */
 //二分搜索树的相关实现:二分搜索树是二叉树的的进化，规则是：节点的左孩子都小于该节点，节点的右孩子都大于该节点，所以创建的时候这棵树的节点之间需要有可对比性
-public class BST<E extends Comparable<E>> {
+public class BSTChuBu<E extends Comparable<E>> {
 
     //其实树的结构与链表类似，定义节点的结构
     public class Node{
@@ -28,7 +28,7 @@ public class BST<E extends Comparable<E>> {
     private Node root;
     //共有多少给节点
     private int size;
-    public BST(){
+    public BSTChuBu(){
         root=null;
         size=0;
     }
