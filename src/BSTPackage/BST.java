@@ -1,6 +1,8 @@
 package BSTPackage;
 
 
+import java.util.Stack;
+
 /**
  * @Author: marryFeng
  * @Email: 1473357859@qq.com
@@ -97,6 +99,75 @@ public class BST<E extends Comparable<E>> {
             traversal(root.right);
         }
     }
+    //二分搜索树的前序遍历：非递归实现：主要是将节点，接着节点的右节点，左节点依次压入栈，再读取栈顶元素
+    public void  preOrderNR(){
+        Stack<Node> stack=new Stack<>();
+        stack.push(root);
+        while(!stack.isEmpty()){
+            Node cur=stack.pop();
+            System.out.println(cur.e);
+            if (cur.right!=null){
+                    stack.push(cur.right);
+                if (cur.left!=null){
+                    stack.push(cur.left);
+                }
+            }
+
+        }
+    }
+    //二分搜索树的中序遍历：非递归实现：这里有点小技巧，也是利用栈：先将左子树压入栈，然后在利用出栈访问到右子树，然后再将右子树压入栈，循环出栈
+    public void inOrderNR(){
+        Stack<Node> stack=new Stack<>();
+        Node p=root;
+        while(p!=null ||!stack.isEmpty()){
+            if (p!=null){
+                stack.push(p);
+                p=p.left;
+            }else{
+                p=stack.pop();
+                System.out.println(p.e);
+                p=p.right;
+            }
+        }
+    }
+    //二分搜索树的后遍历：非递归实现：
+    public void postOrderNR(){
+        if(root==null){
+        return;}
+        Stack<Node> s = new Stack<Node>();
+
+        Node curNode; //当前访问的结点
+        Node lastVisitNode; //上次访问的结点
+        curNode = root;
+        lastVisitNode = null;
+
+        //把currentNode移到左子树的最下边
+        while(curNode!=null){
+            s.push(curNode);
+            curNode = curNode.left;
+        }
+        while(!s.empty()) {
+            curNode = s.pop();  //弹出栈顶元素
+            //一个根节点被访问的前提是：无右子树或右子树已被访问过
+            if (curNode.right != null && curNode.right != lastVisitNode) {
+                //根节点再次入栈
+                s.push(curNode);
+                //进入右子树，且可肯定右子树一定不为空
+                curNode = curNode.right;
+                while (curNode != null) {
+                    //再走到右子树的最左边
+                    s.push(curNode);
+                    curNode = curNode.left;
+                }
+            } else {
+                //访问
+                System.out.println(curNode.e);
+                //修改最近被访问的节点
+                lastVisitNode = curNode;
+            }
+        }
+    }
+
     //二分搜索树的中序遍历： 左 根 右;递归实现
     //二分搜索树的中序遍历就是这些节点的升序排列
     public void inOrder(){
@@ -110,8 +181,7 @@ public class BST<E extends Comparable<E>> {
             inOrder(root.right);
         }
     }
-    //二分搜索树的中序遍历： 左 根 右;递归实现
-    //二分搜索树的中序遍历就是这些节点的升序排列
+    //二分搜索树的后序遍历： 左  右 根;递归实现
     public void postOrder(){
         postOrder(root);
 

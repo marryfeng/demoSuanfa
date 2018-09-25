@@ -14,11 +14,17 @@ public class Main {
         for (int i=0;i<nums.length;i++){
             bst.addEle(nums[i]);
         }
-        bst.preOrder();
+       /* bst.preOrder();
+        System.out.println(bst);
+        bst.preOrderNR();
         System.out.println(bst);
         bst.inOrder();
         System.out.println(bst);
+        bst.inOrderNR();
+        System.out.println(bst);*/
         bst.postOrder();
+        System.out.println(bst);
+        bst.postOrderNR();
         System.out.println(bst);
     }
 }
