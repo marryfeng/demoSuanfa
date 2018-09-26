@@ -21,10 +21,13 @@ public class Main {
         bst.inOrder();
         System.out.println(bst);
         bst.inOrderNR();
-        System.out.println(bst);*/
-        bst.postOrder();
         System.out.println(bst);
+        bst.postOrder();
+        System.out.println(bst);*/
         bst.postOrderNR();
         System.out.println(bst);
+        /*bst.levelOrder();
+        System.out.println(bst.getMax());
+        System.out.println(bst.getMin());*/
     }
 }
