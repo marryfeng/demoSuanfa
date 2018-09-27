@@ -257,7 +257,7 @@ public class BST<E extends Comparable<E>> {
             size--;
             return rightNode;
         }
-        //递归逻辑
+        //递归逻辑：相当于将当前节点的左孩子用当前节点的下一个节点的下个节点来衔接
         node.left=deleMinNode(node.left);
         return node;
     }
@@ -285,6 +285,49 @@ public class BST<E extends Comparable<E>> {
             return node;
         }
         return getMin(node.left);
+    }
+
+    //删除二分搜索树中的任意节点
+    public void delRandomNode(E e){
+        root=remove(root,e);
+    }
+
+    private Node remove(Node node, E e) {
+        //递归终止的条件就是e的值与一个节点的值的比较
+        if (node==null){
+            return null;
+        }
+        if (e.compareTo(node.e)<0){
+            node.left=remove(node.left,e);
+            return node;
+        }
+        else if (e.compareTo(node.e)>0){
+            node.right=remove(node.right,e);
+            return node;
+        }else {//如果该节点就是要删除的节点e==node.e
+            //如果只有右子树：这个操作跟删除最小节点的逻辑一样
+            if (node.left==null){
+                Node rightNode=node.right;
+                node.right=null;
+                size--;
+                return rightNode;
+            }
+            //如果只有左子树：这个操作类似于删除最大值节点
+            if (node.right==null){
+                Node leftNode=node.left;
+                node.left=null;
+                size--;
+                return leftNode;
+            }
+            //如果该节点既有左子树又有右子树：则按照Hibbard Deletion方法删除：即找到要删除节点的临近节点（这个临近节点在该节点的右子树中），然后从右子树中删除该节点，将此节点与要删除的节点替换
+            //待删除节点的后继节点
+            Node successor=getMin(node.right);
+            successor.right=deleMinNode(node.right);
+            successor.left=node.left;
+            node.left=node.right=null;
+            return successor;
+        }
+
     }
 
 
