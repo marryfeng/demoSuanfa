@@ -1,6 +1,9 @@
 package paixusuanfa;
 
 import java.util.Arrays;
+import java.util.HashMap;
+
+import heap.MaxHeap;
 
 /**
  * @Author: marryFeng
@@ -141,52 +144,18 @@ public class PaiXuSuanfa {
     //步骤：建立大顶堆（根节点比孩子节点都大）或者小顶堆（根节点比孩子节点都小）--》交换跟节点与最末尾的节点--》如此循环
    // 堆排序的基本思想是：将待排序序列构造成一个大顶堆，此时，整个序列的最大值就是堆顶的根节点。将其与末尾元素进行交换，此时末尾就为最大值。然后将剩余n-1个元素重新构造成一个堆，这样会得到n个元素的次小值。如此反复执行，便能得到一个有序序列了
     public  void heapSort(int[] a){
-        System.out.println("开始排序");
-        int arrayLength=a.length;
-        //循环建堆
-        for(int i=0;i<arrayLength-1;i++){
-            //建堆
-            buildMaxHeap(a,arrayLength-1-i);
-            //交换堆顶和最后一个元素
-            swap(a,0,arrayLength-1-i);
-            System.out.println(Arrays.toString(a));
+        MaxHeap<Integer> maxHeap=new MaxHeap<>(a.length);
+        for (int i=0;i<a.length;i++){
+            maxHeap.insertHeapEle(a[i]);
         }
-    }
-    private  void swap(int[] data, int i, int j) {
-        // TODO Auto-generated method stub
-        int tmp=data[i];
-        data[i]=data[j];
-        data[j]=tmp;    }
-        //对data数组从0到lastIndex建大顶堆
-     private void buildMaxHeap(int[] data, int lastIndex) {
-         // TODO Auto-generated method stub
-         // 从lastIndex处节点（最后一个节点）的父节点开始
-         for (int i = (lastIndex - 1) / 2; i >= 0; i--) {
-             //k保存正在判断的节点
-             int k = i;
-             //如果当前k节点的子节点存在
-             while (k * 2 + 1 <= lastIndex) {
-                 //k节点的左子节点的索引
-                 int biggerIndex = 2 * k + 1;
-                 //如果biggerIndex小于lastIndex，即biggerIndex+1代表的k节点的右子节点存在
-                 if (biggerIndex < lastIndex) {
-                     //若果右子节点的值较大
-                     if (data[biggerIndex] < data[biggerIndex + 1]) {
-                         //biggerIndex总是记录较大子节点的索引
-                         biggerIndex++;
-                     }
-                 }                //如果k节点的值小于其较大的子节点的值
-                 if (data[k] < data[biggerIndex]) {
-                     //交换他们
-                     swap(data, k, biggerIndex);
-                     //将biggerIndex赋予k，开始while循环的下一次循环，重新保证k节点的值大于其左右子节点的值
-                     k = biggerIndex;
-                 } else {
-                     break;
-                 }
-             }
-         }
+        maxHeap.bianliHeap();
+        //上面已经将大顶堆建立完成，依次输出堆中最大的元素
+        for (int i=0;i<a.length;i++){
+            System.out.println(maxHeap.delMax());
+        }
      }
+
+
 
 
 
@@ -197,11 +166,12 @@ public class PaiXuSuanfa {
         int[] a={5,4,3,7};
        // int[] brr=xz.xzpx(a);
        // int[] brr=xz.insertSort(a);
-         int[] brr=xz.quickSort(a,0,a.length-1);
+        // int[] brr=xz.quickSort(a,0,a.length-1);
         //int[] brr=xz.sheelSort(a);
-        for (int i=0;i<brr.length;i++){
+        xz.heapSort(a);
+        /*for (int i=0;i<brr.length;i++){
             System.out.print(brr[i]+",");
-        }
+        }*/
 
     }
 
