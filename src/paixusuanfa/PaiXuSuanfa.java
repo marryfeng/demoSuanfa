@@ -143,36 +143,97 @@ public class PaiXuSuanfa {
     //堆排序：冒泡排序的改进
     //步骤：建立大顶堆（根节点比孩子节点都大）或者小顶堆（根节点比孩子节点都小）--》交换跟节点与最末尾的节点--》如此循环
    // 堆排序的基本思想是：将待排序序列构造成一个大顶堆，此时，整个序列的最大值就是堆顶的根节点。将其与末尾元素进行交换，此时末尾就为最大值。然后将剩余n-1个元素重新构造成一个堆，这样会得到n个元素的次小值。如此反复执行，便能得到一个有序序列了
-    public  void heapSort(int[] a){
+    public  void heapSort(Integer[] a){
         MaxHeap<Integer> maxHeap=new MaxHeap<>(a.length);
+        maxHeap.heapify(a);
+        maxHeap.bianliHeap();
         for (int i=0;i<a.length;i++){
+            System.out.println(maxHeap.delMax());
+        }
+       /*for (int i=0;i<a.length;i++){
             maxHeap.insertHeapEle(a[i]);
         }
         maxHeap.bianliHeap();
         //上面已经将大顶堆建立完成，依次输出堆中最大的元素
         for (int i=0;i<a.length;i++){
             System.out.println(maxHeap.delMax());
-        }
+        }*/
      }
+     //归并排序 (merge sort) 是一类与插入排序、交换排序、选择排序不同的另一种排序方法。归并的含义是将两个或两个以上的有序表合并成一个新的有序表
+     /*一、两路归并排序算法思路
+    分而治之(divide - conquer);每个递归过程涉及三个步骤
+    第一, 分解: 把待排序的 n 个元素的序列分解成两个子序列, 每个子序列包括 n/2 个元素.
+    第二, 治理: 对每个子序列分别调用归并排序MergeSort, 进行递归操作
+    第三, 合并: 合并两个排好序的子序列,生成排序结果
+    */
+    public void mergeSort(int[] array,int low,int high){
+        int mid=(low+high)/2;
+        if (low<high){
+            mergeSort(array,low,mid);//对low到mid进行归并排序
+            mergeSort(array,mid+1,high);//对mid+1到high进行归并排序
+            mergeArray(array,low,mid,high);//对两边有序的元素进行合并
+        }
 
+    }
+    //归并排序的融合步骤
+    private void mergeArray(int[] arr, int low, int mid, int high){
+        //归并排序的一个技巧就是创建一个临时数组来盛放排好的元素
+        int[] temp=new int[high-low+1];
+        //定义两个指向每组数据的指向
+        int i=low;
+        int j=mid+1;
+        //k为临时数组的索引
+        int k=0;
+        while(i<=mid && j<=high){
+            if (arr[i]<arr[j]){
+                temp[k++]=arr[i++];
+            }else{
+                temp[k++]=arr[j++];
+            }
+        }
+        //将左边剩余元素放入临时数组
+        while(i<=mid){
+            temp[k++]=arr[i++];
+        }
+        //将右边剩余元素放入临时数组
+        while(j<=high){
+            temp[k++]=arr[j++];
+        }
+        //将临时数组中有序的元素放入arr中
+        for(int x=0;x<temp.length;x++){
+            arr[x+low] = temp[x];
+        }
+    }
 
-
-
-
-
+    //基数排序
+    //基数排序(Radix Sort)是桶排序的扩展，它的基本思想是：将整数按位数切割成不同的数字，然后按每个位数分别比较。
+    //具体做法是：将所有待比较数值统一为同样的数位长度，数位较短的数前面补零。然后，从最低位开始，依次进行一次排序。这样从最低位排序一直到最高位排序完成以后, 数列就变成一个有序序列。
+           /* 1. 按照个位数进行排序。
+            2. 按照十位数进行排序。
+            3. 按照百位数进行排序*/
 
     public static void main(String[] args){
         PaiXuSuanfa xz=new PaiXuSuanfa();
-        int[] a={5,4,3,7};
+        int a[] = {51,46,20,18};
        // int[] brr=xz.xzpx(a);
        // int[] brr=xz.insertSort(a);
         // int[] brr=xz.quickSort(a,0,a.length-1);
         //int[] brr=xz.sheelSort(a);
-        xz.heapSort(a);
-        /*for (int i=0;i<brr.length;i++){
+//        xz.heapSort(a);
+        xz.mergeSort(a,0,a.length-1);
+       /* for (int i=0;i<brr.length;i++){
             System.out.print(brr[i]+",");
-        }*/
-
+        }
+*/
     }
+
+   /* public static void main(String[] args){
+        String a="1";
+        f(a);
+        System.out.println(a);
+    }
+    public static void f(String str){
+        str=str+"2";
+    }*/
 
 }
