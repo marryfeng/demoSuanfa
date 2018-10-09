@@ -70,7 +70,7 @@ public class MaxHeap<E extends Comparable<E>> {
       return array.getEle(0);
 
   }
-    //向堆中删除最大节点的元素：因为我们建立的是大顶堆，所以堆的顶部就是最大的那个元素，将该元素删除后，将最末尾的元素上浮到堆顶。然后比较左右孩子节点的大小,取左右节点中最大的那个节点与堆顶元素替换。依次循环
+    //向堆中删除最大节点的元素：因为我们建立的是大顶堆，所以堆的顶部就是最大的那个元素，将末尾元素放到堆顶，删除末尾元素，然后执行下沉操作：比较左右孩子节点的大小,取左右节点中最大的那个节点与堆顶元素替换。依次循环
     public E delMax(){
       E res=findMax();
       //将堆顶元素与末尾元素交换位置
@@ -82,7 +82,7 @@ public class MaxHeap<E extends Comparable<E>> {
       return res;
   }
   private void siftDown(int k){
-        //k这个位置都已经没有孩子了，那就下沉结束
+        //k这个位置都已经没有孩子了，即k为叶子节点，那就下沉结束。即k的左孩子的索引都越界了则这个k肯定没有孩子了
         while(getLeftChildIndex(k)<array.getSize()){
             //找出k的左右孩子中最大的那一个，然后交换k与最大的那个位置,首先假设最大的那个索引是left孩子
             int j=getLeftChildIndex(k);
@@ -107,6 +107,15 @@ public class MaxHeap<E extends Comparable<E>> {
       array.setEle(0,e);
       siftDown(0);
       return res;
+  }
+  //将任意数组建成一个大顶堆：思路：从最后一个非叶子节点开始执行下沉操作，直到堆顶
+  public void heapify(E[] arr){
+      array=new Array<>(arr);
+      //最后一个非叶子节点的索引是：最后一个节点的父亲节点的索引
+      for(int i=getParentIndex(arr.length-1);i>=0;i--){
+          siftDown(i);
+      }
+
   }
     public static void main(String[] args){
         MaxHeap<Integer> maxHeap=new MaxHeap<>();
