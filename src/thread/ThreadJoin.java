@@ -1,6 +1,5 @@
 package thread;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 /**
  * @Author: marryFeng
@@ -12,10 +11,12 @@ import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 public class ThreadJoin {
     public static void main(String[] args) throws InterruptedException {
         Thread mainThread=Thread.currentThread();
+        //这个是辅线程
         Thread thread=new Thread(()->{
             for (int i=0;i<10;i++){
                 if (i==0){
                     try {
+                        //join即线程的强制执行
                         mainThread.join();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
