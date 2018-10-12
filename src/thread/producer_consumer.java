@@ -42,7 +42,7 @@ class Message{
             return this.title+this.content;
         } finally {
             this.flag=true;
-            super.notify();
+            super.notify();//唤醒生产者
         }
     }
 }
