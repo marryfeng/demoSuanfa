@@ -7,45 +7,33 @@ package thread;
  * @Version: 1.0
  */
 //设计一个生产电脑和取走电脑的类，要求：生产出一台电脑就搬走，没有电脑就等待生产。电脑没搬走就等待生产，并统计电脑数量
-
-class ResourceComputer{
+class Computer{
+    private static int count=0;
     private String computerName;
     private Double price;
-    private int count=0;
-    private boolean  flag=false;
-
-    public String getComputerName() {
-        return computerName;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    //如果为true则表示可以生产，如果为false，则表示不能生产，可以消费
-    public ResourceComputer(String computerName,Double price){
-        this.computerName=computerName;
+    public Computer(String name,Double price){
+        this.computerName=name;
         this.price=price;
+        count++;
     }
+}
+class ResourceComputer{
+   private Computer computer;
+    //如果为true则表示可以生产，如果为false，则表示不能生产，可以消费
     public synchronized void make() throws InterruptedException {
-        if (this.flag==false){
+        if (this.computer!=null){
             super.wait();
         }
-        this.count++;
-        this.flag=false;
-        super.notify();
+        this.computer=new Computer("电脑",1.1);
+        super.notifyAll();
     }
     public synchronized void  get() throws InterruptedException {
-        if (this.flag==true){
+        if (this.computer==null){
             super.wait();
         }
-        this.count--;
-        this.flag=true;
-        super.notify();
+        System.out.println(this.computer);
+        this.computer=null;
+        super.notifyAll();
     }
 }
 class ProCom implements Runnable{
@@ -57,8 +45,7 @@ class ProCom implements Runnable{
     public void run() {
         for (int i=0;i<10;i++){
             try {
-                resourceComputer.make();
-                System.out.println(Thread.currentThread()+"生产电脑者"+this.resourceComputer.getComputerName()+this.resourceComputer.getPrice()+this.resourceComputer.getCount());
+               this.resourceComputer.make();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -74,8 +61,7 @@ class ConCom implements Runnable{
     public void run() {
         for (int i=0;i<10;i++){
             try {
-                resourceComputer.get();
-                System.out.println(Thread.currentThread()+"消费电脑者"+this.resourceComputer.getComputerName()+this.resourceComputer.getPrice()+this.resourceComputer.getCount());
+                this.resourceComputer.get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -88,9 +74,11 @@ class ConCom implements Runnable{
 
 public class ComputerProduce {
     public static void main(String[] args) {
-        ResourceComputer rc=new ResourceComputer("戴尔",1.1);
-        new Thread(new ProCom(rc),"生产电脑者").start();
-        new Thread(new ConCom(rc),"消费电脑者").start();
+        ResourceComputer rc=new ResourceComputer();
+        ProCom p=new ProCom(rc);
+        new Thread(p,"生产电脑者").start();
+        ConCom c = new ConCom(rc);
+        new Thread(c,"消费电脑者").start();
 
 
     }
